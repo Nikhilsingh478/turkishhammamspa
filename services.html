@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Spa Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Gradient background colors as requested */
+            --color-primary: #bdaf71;
+            --color-secondary: #f5cd8f;
+            --color-olive: #c5b476;
+            --color-warmbeige: #f5c88a;
+            --color-softwhite: #FDFBF7;
+            --color-darkbrown: #4B2E1F;
+        }
+        
+        body { 
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-primary) 100%);
+            background-attachment: fixed;
+            color: var(--color-darkbrown); 
+            min-height: 100vh;
+        }
+        
+        ::selection {
+            background-color: var(--color-secondary);
+            color: var(--color-darkbrown);
+        }
+        
+        ::-moz-selection {
+            background-color: var(--color-secondary);
+            color: var(--color-darkbrown);
+        }
+        
+        .spa-card-container {
+            perspective: 1000px;
+        }
+        
+        .spa-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 520px; /* Reduced height for better proportions */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .spa-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .spa-card-image {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .spa-card:hover .spa-card-image {
+            transform: scale(1.1);
+        }
+        
+        .spa-card-glow {
+            background: linear-gradient(135deg, rgba(245, 205, 143, 0.3) 0%, transparent 50%, rgba(189, 175, 113, 0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .spa-card:hover .spa-card-glow {
+            opacity: 1;
+        }
+        
+        .spa-card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        .book-btn {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .book-btn:hover {
+            background: linear-gradient(135deg, var(--color-warmbeige) 0%, var(--color-olive) 100%);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(189, 175, 113, 0.4);
+        }
+        
+        .book-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .book-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--color-secondary);
+        }
+        
+        .card-bg {
+            background: linear-gradient(135deg, 
+                rgba(253, 251, 247, 0.9) 0%, 
+                rgba(255, 255, 255, 0.95) 50%, 
+                rgba(253, 251, 247, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .dark .card-bg {
+            background: linear-gradient(135deg, 
+                rgba(75, 46, 31, 0.9) 0%, 
+                rgba(60, 40, 30, 0.95) 50%, 
+                rgba(75, 46, 31, 0.9) 100%);
+            border: 1px solid rgba(189, 175, 113, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h1 style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" class="text-6xl mb-4 tracking-wide">
+                    Premium Spa Services
+                </h1>
+                <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" class="text-lg max-w-2xl mx-auto font-medium opacity-80">
+                    Indulge in our carefully curated wellness experiences designed to rejuvenate your mind, body, and spirit.
+                </p>
+            </div>
+
+            <!-- Cards Grid - 3x3 Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto justify-items-center">
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-1">
+                        
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Deep Tissue Massage spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                            aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-2">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Aromatherapy Facial spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                            aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-3">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Hot Stone Therapy spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                            aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-1">
+                        
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Deep Tissue Massage spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                            aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-2">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Aromatherapy Facial spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                            aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-3">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Hot Stone Therapy spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                            aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-1">
+                        
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Deep Tissue Massage spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                            aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-2">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Aromatherapy Facial spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                            aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" 
+                         tabindex="0" 
+                         role="article" 
+                         aria-labelledby="spa-title-3">
+                        
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl" 
+                             style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+                        
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4" style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+                                     alt="Hot Stone Therapy spa service" 
+                                     class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3" 
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);" 
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+                                    
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);" 
+                                       class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);" 
+                                          class="text-2xl"
+                                          aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                            onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                            aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark mode toggle -->
+            <!-- <div class="fixed bottom-6 right-6">
+                <button onclick="toggleDarkMode()" 
+                        class="p-3 rounded-full shadow-lg border hover:shadow-xl transition-all duration-300"
+                        style="background-color: var(--color-softwhite); border-color: var(--color-primary); color: var(--color-darkbrown);"
+                        aria-label="Toggle dark mode">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        // Handle book now clicks with ripple effect
+        function handleBookNow(button, serviceName) {
+            // Create ripple effect
+            const ripple = document.createElement('div');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.className = 'ripple-effect';
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+            
+            button.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                if (ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
+            }, 600);
+            
+            // Show booking alert
+            setTimeout(() => {
+                alert('Booking functionality would be implemented here for: ' + serviceName);
+            }, 150);
+        }
+        
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        }
+        
+        // Load saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+        
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('spa-card')) {
+                e.preventDefault();
+                const button = e.target.querySelector('.book-btn');
+                if (button) {
+                    button.click();
+                }
+            }
+        });
+        
+        // Add enhanced shadow effects on hover
+        document.querySelectorAll('.spa-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 25px 50px rgba(189, 175, 113, 0.4)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 20px 25px rgba(0, 0, 0, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

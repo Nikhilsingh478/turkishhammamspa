@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Gallery | Tuned Spacing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+
+        :root {
+            --radius: 18px;
+            --elev: 22px;
+            --anim: 900ms;
+            --tilt: 6deg;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Anton", sans-serif;
+        }
+
+        /* Section wrapper (adds real side padding and bottom breathing room) */
+        .gallery-container {
+            color: white;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-inline: clamp(16px, 5vw, 64px);
+            /* side padding to visually reduce width */
+            padding-top: clamp(12px, 3vh, 32px);
+            padding-bottom: clamp(24px, 6vh, 72px);
+            /* proper bottom space */
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: .06em;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
+            margin-bottom: clamp(10px, 2vh, 20px);
+        }
+
+        /* Gallery grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 1rem;
+            height: 74vh;
+            /* slightly shorter for visible bottom space */
+            width: 100%;
+            max-width: 1180px;
+            /* reduced max width */
+            margin: 0 auto clamp(16px, 3vh, 40px);
+            /* bottom margin too */
+            padding: clamp(12px, 2vw, 24px);
+            /* inner padding frame */
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .1);
+            overflow: hidden;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+            opacity: 0;
+            transform: translateY(60px) scale(.92);
+            transition: transform var(--anim) cubic-bezier(.2, .65, .2, 1), opacity var(--anim) ease;
+            perspective: 800px;
+            isolation: isolate;
+        }
+
+        .gallery-item.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .gallery-item .inner {
+            position: absolute;
+            inset: 0;
+            transition: transform 450ms ease, filter 450ms ease;
+            transform-style: preserve-3d;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, .8), transparent);
+            color: white;
+            transform: translateY(100%);
+            transition: transform .5s cubic-bezier(.165, .84, .44, 1);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Hover polish */
+        @media (hover:hover) and (pointer:fine) {
+            .gallery-item:hover {
+                transform: translateY(calc(-1 * var(--elev))) scale(1.02);
+            }
+
+            .gallery-item:hover .inner {
+                filter: saturate(1.08) contrast(1.02);
+            }
+
+            .gallery-item::after {
+                content: "";
+                position: absolute;
+                inset: -20%;
+                pointer-events: none;
+                background: linear-gradient(115deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, .35) 50%, rgba(255, 255, 255, 0) 65%);
+                transform: translateX(-80%);
+                transition: transform 1200ms ease;
+                mix-blend-mode: screen;
+                opacity: .55;
+            }
+
+            .gallery-item:hover::after {
+                transform: translateX(80%);
+            }
+        }
+
+        /* Collage positions */
+        .item1 {
+            grid-column: 1 / span 6;
+            grid-row: 1 / span 4;
+        }
+
+        .item2 {
+            grid-column: 7 / span 6;
+            grid-row: 1 / span 3;
+        }
+
+        .item3 {
+            grid-column: 7 / span 4;
+            grid-row: 4 / span 3;
+        }
+
+        .item4 {
+            grid-column: 11 / span 2;
+            grid-row: 4 / span 3;
+        }
+
+        /* Title block — centered both ways */
+        .title-block {
+            grid-column: 1 / span 6;
+            grid-row: 5 / span 2;
+            user-select: none;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            /* center horizontally */
+            align-items: center;
+            /* center vertically */
+            padding: 0;
+            /* no left bias */
+            text-align: center;
+        }
+
+        .title-block .title {
+            line-height: .9;
+            letter-spacing: .02em;
+            white-space: pre-line;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
+            font-size: 3.5rem;
+            text-align: center;
+        }
+
+        /* Mobile / small screens */
+        @media (max-width:1024px) {
+            .gallery-container {
+                padding-inline: clamp(12px, 4vw, 40px);
+                padding-top: 1rem;
+                padding-bottom: clamp(20px, 6vh, 56px);
+            }
+
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                height: 78vh;
+                /* small shrink for bottom space */
+                gap: .8rem;
+                padding: .8rem;
+                max-width: 980px;
+                /* still slightly inset on tablets */
+            }
+
+            .main-title {
+                margin-bottom: .5rem;
+                font-size: clamp(2rem, 6.5vw, 2.6rem);
+            }
+
+            .item1 {
+                grid-column: 1 / span 2;
+                grid-row: 1 / span 1;
+            }
+
+            .item2 {
+                grid-column: 1 / span 1;
+                grid-row: 2 / span 1;
+            }
+
+            .item3 {
+                grid-column: 2 / span 1;
+                grid-row: 2 / span 1;
+            }
+
+            .item4 {
+                grid-column: 1 / span 2;
+                grid-row: 3 / span 1;
+            }
+
+            .title-block {
+                display: none;
+            }
+
+            .gallery-caption {
+                padding: .8rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width:640px) {
+            .gallery {
+                height: 80vh;
+                gap: .6rem;
+                padding: .6rem;
+                max-width: 100%;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .gallery-caption {
+                font-size: 1rem;
+                padding: .6rem;
+            }
+        }
+
+        /* Reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            .gallery-item,
+            .gallery-item .inner {
+                transition: none !important;
+            }
+
+            .gallery-item {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gallery-container selection:bg-[var(--color-darkbrown)] selection:text-[var(--color-secondary)]">
+        <h1 class="main-title">GALLERY</h1>
+
+        <div class="gallery">
+            <!-- MAIN COLLAGE ITEMS -->
+            <figure class="gallery-item item1" data-tilt>
+                <div class="inner">
+                    <img loading="lazy" src="https://i.pinimg.com/1200x/09/79/7c/09797cccaa697146f49cacc00a5456ac.jpg"
+                        alt="Nature Photography">
+                </div>
+                <div class="gallery-caption">SERENITY</div>
+            </figure>
+
+            <figure class="gallery-item item2" data-tilt>
+                <div class="inner">
+                    <img loading="lazy" src="https://i.pinimg.com/1200x/8f/db/38/8fdb38ec75085592e654b36e27c5b27b.jpg"
+                        alt="Portrait Photography">
+                </div>
+                <div class="gallery-caption">ESSENCE</div>
+            </figure>
+
+            <figure class="gallery-item item3" data-tilt>
+                <div class="inner">
+                    <img loading="lazy"
+                        src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=80"
+                        alt="Landscape Photography">
+                </div>
+                <div class="gallery-caption">ETERNITY</div>
+            </figure>
+
+            <figure class="gallery-item item4" data-tilt>
+                <div class="inner">
+                    <img loading="lazy" src="https://i.pinimg.com/1200x/79/56/62/7956623eb5107a96653b49828eebf2ae.jpg"
+                        alt="Urban Photography">
+                </div>
+                <div class="gallery-caption">URBANITE</div>
+            </figure>
+
+            <!-- TITLE BLOCK (desktop only) -->
+            <div class="title-block select-none">
+                <div id="spaTitle" class="title">SPA NAME</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Entrance animations
+        document.addEventListener('DOMContentLoaded', function () {
+            const items = document.querySelectorAll('.gallery-item');
+
+            items.forEach((item, i) => {
+                setTimeout(() => item.classList.add('show'), 300 + i * 140);
+            });
+
+            // Parallax tilt (desktop only)
+            const mqFine = matchMedia('(hover:hover) and (pointer:fine)');
+            if (mqFine.matches) {
+                items.forEach(card => {
+                    const inner = card.querySelector('.inner');
+                    card.addEventListener('mousemove', ev => {
+                        const r = card.getBoundingClientRect();
+                        const x = (ev.clientX - r.left) / r.width;
+                        const y = (ev.clientY - r.top) / r.height;
+                        const rx = (0.5 - y) * 12;
+                        const ry = (x - 0.5) * 12;
+                        inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+                    });
+                    card.addEventListener('mouseleave', () => inner.style.transform = 'rotateX(0) rotateY(0)');
+                });
+            }
+
+            // Auto-fit SPA NAME (centered block)
+            const titleBlock = document.querySelector('.title-block');
+            const titleEl = document.getElementById('spaTitle');
+
+            function fitTitle() {
+                if (!titleBlock) return;
+                const isHidden = getComputedStyle(titleBlock).display === 'none';
+                if (isHidden) return;
+                const h = titleBlock.getBoundingClientRect().height;
+                const fontSize = Math.max(24, Math.floor(h * 0.48)); // balanced size inside centered block
+                titleEl.style.fontSize = fontSize + 'px';
+                titleEl.style.letterSpacing = '0.02em';
+                titleEl.style.textAlign = 'center';
+            }
+
+            window.addEventListener('resize', fitTitle);
+            if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitTitle); }
+            else { window.addEventListener('load', fitTitle); }
+            setTimeout(fitTitle, 120);
+        });
+    </script>
+</body>
+
+</html>

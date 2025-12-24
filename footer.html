@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Seema's Salon — Footer</title>
+
+     <!-- Google Fonts: Headings (Bebas Neue) and Body (Poppins)  -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+     <!-- Tailwind CSS (Play CDN)  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root{
+        /* Gradient background colors as requested */
+        --color-primary: #bdaf71;
+        --color-secondary: #f5cd8f;
+        --color-olive: #c5b476;
+        --color-warmbeige: #f5c88a;
+        --color-softwhite: #FDFBF7;
+        --color-darkbrown: #4B2E1F;
+      }
+
+      /* Typography helpers */
+      .font-heading{ font-family: "Bebas Neue", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif; letter-spacing: 0.02em; }
+      .font-body{ font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif; }
+
+      /* Base colors and links */
+      body{ 
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        color: var(--color-darkbrown); 
+        min-height: 100vh;
+      }
+      a{ color: var(--color-darkbrown); transition: color .2s ease, transform .2s ease, filter .2s ease, background-color .2s ease, box-shadow .2s ease; }
+      a:hover{ color: var(--color-darkbrown); opacity: 0.8; }
+      a:focus-visible, button:focus-visible{ outline: 2px solid var(--color-darkbrown); outline-offset: 3px; border-radius: 6px; }
+
+      /* Scroll reveal animations (no GSAP) */
+      [data-animate]{ opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; transition-delay: var(--delay, 0ms); will-change: opacity, transform; }
+      .in-view{ opacity: 1; transform: translateY(0); }
+      .slide-in-left[data-animate]{ transform: translateX(-24px); }
+      .slide-in-right[data-animate]{ transform: translateX(24px); }
+      .slide-in-left.in-view, .slide-in-right.in-view{ transform: translateX(0); }
+
+      /* Cards - Consistent glass brightness */
+      .card{ 
+        background: rgba(255,255,255,0.2); 
+        border: 1px solid rgba(255,255,255,0.3); 
+        border-radius: 14px; 
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1); 
+        backdrop-filter: blur(10px);
+      }
+
+      /* CTA Button (better readable hover) */
+      .btn-olive{
+        background: var(--color-darkbrown);
+        color: var(--color-secondary);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+      .btn-olive:hover{
+        background: var(--color-darkbrown);
+        color: var(--color-secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+        opacity: 0.95;
+      }
+      .btn-olive:active{ transform: translateY(0); }
+
+      /* Social icons micro-interaction */
+      .social-link{
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center;
+        width: 48px; 
+        height: 48px; 
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.4);
+        background: rgba(255,255,255,0.25);
+        color: var(--color-darkbrown);
+        transition: all 0.3s ease;
+      }
+      .social-link:hover{ 
+        transform: translateY(-2px) scale(1.05); 
+        border-color: var(--color-darkbrown); 
+        background: rgba(255,255,255,0.35);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+      }
+
+      /* Map container with proper spacing */
+      .map-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        height: 100%;
+      }
+
+      /* Map aspect ratio */
+      .map-embed{ 
+        width: 100%; 
+        height: 220px;
+        border: 0; 
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        flex-shrink: 0;
+      }
+
+      /* Address styling - Consistent glass brightness */
+      .address-section {
+        background: rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+
+      /* Footer layout fixes */
+      footer{ 
+        position: relative; 
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+      }
+
+      /* Main container */
+      .footer-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      }
+
+      /* Grid layout for sections */
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+
+      /* Section styling */
+      .footer-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 100%;
+      }
+
+      /* Section headers */
+      .section-header {
+        margin-bottom: 0;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+        margin: 0;
+      }
+
+      /* Content areas */
+      .section-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 100%;
+      }
+
+      /* Contact card styling */
+      .contact-card {
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .contact-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+      }
+
+      .contact-item svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      /* Hours container */
+      .hours-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 100%;
+      }
+
+      .hours-card {
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1;
+      }
+
+      /* Hours table styles */
+      .hours-wrap { 
+        overflow-x: auto; 
+        border-radius: 12px;
+        background: rgba(255,255,255,0.1);
+        padding: 1rem;
+      }
+      
+      .hours-table { 
+        border-collapse: separate; 
+        border-spacing: 0; 
+        width: 100%; 
+        min-width: 500px;
+      }
+      
+      .hours-table th,
+      .hours-table td {
+        border: 1px solid rgba(255,255,255,0.4);
+        padding: 0.75rem;
+        text-align: center;
+        background: rgba(255,255,255,0.2);
+        color: var(--color-darkbrown);
+        font-size: 0.875rem;
+      }
+      
+      .hours-table thead th { 
+        font-weight: 600; 
+        background: rgba(255,255,255,0.3);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      .hours-table th:first-child { border-top-left-radius: 8px; }
+      .hours-table th:last-child { border-top-right-radius: 8px; }
+      .hours-table td:first-child { border-bottom-left-radius: 8px; }
+      .hours-table td:last-child { border-bottom-right-radius: 8px; }
+      
+      .hours-table .is-today {
+        background: rgba(197,180,118,0.5) !important;
+        border-color: rgba(197,180,118,0.8) !important;
+        color: var(--color-darkbrown) !important;
+        font-weight: 600;
+      }
+
+      /* SPA text styling */
+      .spa-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        color: var(--color-darkbrown);
+        text-align: center;
+        opacity: 0.9;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        line-height: 1;
+        margin: 1rem 0;
+      }
+
+      /* Socials card */
+      .socials-card {
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .social-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      /* Clock icon styling */
+      .clock-icon {
+        color: var(--color-darkbrown);
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      }
+
+      /* Divider */
+      .divider{ 
+        height: 1px; 
+        background: linear-gradient(90deg, rgba(75,46,31,0), rgba(75,46,31,0.3), rgba(75,46,31,0)); 
+        margin: 2rem 0 1rem;
+      }
+
+      /* Footer bottom */
+      .footer-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.2);
+      }
+
+      .footer-nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .footer-nav a {
+        font-size: 0.875rem;
+        color: rgba(75,46,31,0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-nav a:hover {
+        color: var(--color-darkbrown);
+      }
+
+      .copyright {
+        font-size: 0.875rem;
+        color: rgba(75,46,31,0.8);
+        text-align: center;
+      }
+
+      /* Mobile responsive improvements */
+      @media (max-width: 1023px) {
+        footer {
+          min-height: auto;
+          padding: 3rem 0;
+        }
+
+        .footer-container {
+          padding: 0 1rem;
+          gap: 2rem;
+        }
+        
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        
+        .section-header h2 {
+          font-size: 2rem;
+          text-align: center;
+        }
+        
+        .contact-content {
+          gap: 1.5rem;
+        }
+        
+        .contact-info {
+          gap: 0.75rem;
+        }
+        
+        .spa-text {
+          font-size: 2.5rem;
+        }
+        
+        .social-links {
+          justify-content: center;
+        }
+
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+          gap: 0.75rem;
+        }
+
+        .footer-nav {
+          gap: 1.5rem;
+        }
+
+        .hours-table {
+          min-width: 400px;
+        }
+
+        .hours-table th,
+        .hours-table td {
+          padding: 0.5rem;
+          font-size: 0.8rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .footer-container {
+          padding: 0 0.75rem;
+        }
+
+        .contact-card,
+        .hours-card,
+        .socials-card {
+          padding: 1.5rem;
+        }
+
+        .spa-text {
+          font-size: 2rem;
+        }
+
+        .social-link {
+          width: 44px;
+          height: 44px;
+        }
+
+        .hours-table {
+          min-width: 350px;
+        }
+
+        .hours-table th,
+        .hours-table td {
+          padding: 0.4rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      /* Utility for screen readers */
+      .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+      /* Perfect alignment helpers */
+      .flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .flex-between {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* Ensure equal heights on desktop */
+      @media (min-width: 1024px) {
+        .footer-grid {
+          align-items: stretch;
+        }
+        
+        .footer-section {
+          height: 100%;
+        }
+        
+        .section-content {
+          height: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-body antialiased selection:bg-[var(--color-darkbrown)] selection:text-[var(--color-secondary)]">
+     
+    <!-- Full-viewport footer  -->
+    <footer>
+      <div class="footer-container">
+         <!-- Main grid - Two column layout  -->
+        <div class="footer-grid">
+           <!-- LEFT COLUMN: Map + Address + Contact  -->
+          <section class="footer-section slide-in-left" data-animate style="--delay: 80ms;">
+            <!-- Header -->
+            <div class="section-header">
+              <h2 class="font-heading text-[var(--color-darkbrown)]" data-animate style="--delay: 140ms;">
+                Find Us
+              </h2>
+            </div>
+
+            <!-- Content -->
+            <div class="section-content">
+               <!-- Map Container  -->
+              <div class="map-container" data-animate style="--delay: 160ms;">
+               <!-- Google Maps Embed  -->
+                <iframe
+                  id="map-embed"
+                  class="map-embed"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9935.181922068346!2d-0.127758!3d51.507351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b33376b1d7b%3A0xa7789f41e3a34d5!2sWestminster%2C%20London!5e0!3m2!1sen!2suk!4v1692199980000!5m2!1sen!2suk"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Map — Seema's Salon location"
+                  aria-label="Map of Seema's Salon location">
+                </iframe>
+
+                 <!-- Address  -->
+                <div class="address-section">
+                  <div class="flex items-start gap-3">
+                     <!-- Location icon  -->
+                    <span class="mt-1" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="text-[var(--color-darkbrown)]" viewBox="0 0 24 24">
+                        <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5z"/>
+                      </svg>
+                    </span>
+                    <div>
+                      <strong class="block text-[var(--color-darkbrown)] font-semibold mb-1">Seema's Salon</strong>
+                      <p class="text-[var(--color-darkbrown)]/90 leading-relaxed">23 Roseberry St, London, UK</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact Card -->
+              <div class="contact-card" data-animate style="--delay: 220ms;">
+                <h3 class="font-heading text-2xl text-[var(--color-darkbrown)] margin-0">Contact</h3>
+                
+                <div class="contact-content">
+                  <!-- Contact Info -->
+                  <div class="contact-info">
+                    <div class="contact-item">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79a15.91 15.91 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C11.85 21 3 12.15 3 1a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.02l-2.2 2.2z"/>
+                      </svg>
+                      <a href="tel:02036452275" class="font-medium">020-3645-2275</a>
+                    </div>
+
+                    <div class="contact-item">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 13.065 1.5 6.75V18A1.5 1.5 0 0 0 3 19.5h18A1.5 1.5 0 0 0 22.5 18V6.75l-10.5 6.315zM21 5.25H3c-.45 0-.846.2-1.11.51L12 12.885l10.11-7.125A1.395 1.395 0 0 0 21 5.25z"/>
+                      </svg>
+                      <a href="mailto:hello@seemassalon.com" class="font-medium">hello@seemassalon.com</a>
+                    </div>
+                  </div>
+
+                  <!-- Book Now Button -->
+                  <div class="flex justify-center lg:justify-start">
+                    <a href="#" class="btn-olive" aria-label="Book an appointment now">
+                      Book Now
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+           <!-- RIGHT COLUMN: Opening Hours + Socials  -->
+          <section class="footer-section slide-in-right" data-animate style="--delay: 120ms;">
+             <!-- Header -->
+            <div class="section-header">
+              <div class="flex items-center gap-3" data-animate style="--delay: 140ms;">
+                 <!-- Clock icon -->
+                <span class="clock-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 1.75a10.25 10.25 0 1 0 0 20.5 10.25 10.25 0 0 0 0-20.5zm.75 10.19V6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .22.53l3.75 3.75a.75.75 0 1 0 1.06-1.06l-3.53-3.53z"/>
+                  </svg>
+                </span>
+                <h2 class="font-heading text-[var(--color-darkbrown)]">
+                  Opening Hours
+                </h2>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="section-content">
+              <!-- Hours Container -->
+              <div class="hours-container" data-animate style="--delay: 180ms;">
+                <div class="hours-card">
+                  <!-- Hours Table -->
+                  <div class="hours-wrap">
+                    <table class="hours-table">
+                      <thead>
+                        <tr>
+                           <!-- data-day mapping: 1=Mon ... 6=Sat, 0=Sun  -->
+                          <th data-day="1">Mon</th>
+                          <th data-day="2">Tue</th>
+                          <th data-day="3">Wed</th>
+                          <th data-day="4">Thu</th>
+                          <th data-day="5">Fri</th>
+                          <th data-day="6">Sat</th>
+                          <th data-day="0">Sun</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                           <!-- Values populated by JS  -->
+                          <td data-day="1"></td>
+                          <td data-day="2"></td>
+                          <td data-day="3"></td>
+                          <td data-day="4"></td>
+                          <td data-day="5"></td>
+                          <td data-day="6"></td>
+                          <td data-day="0"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                   <!-- SEEMA'S SPA text section -->
+                  <div class="flex-center">
+                    <div class="spa-text">SEEMA'S SPA</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Socials Card -->
+              <div class="socials-card" data-animate style="--delay: 200ms;">
+                <h3 class="font-heading text-2xl text-[var(--color-darkbrown)] margin-0">
+                  Follow Us
+                </h3>
+                <p class="text-[var(--color-darkbrown)]/80 margin-0">Stay updated with our latest treatments and offers.</p>
+                
+                <div class="social-links">
+                   <!-- Instagram  -->
+                  <a class="social-link" href="https://instagram.com/seemassalon" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram">
+                    <span class="sr-only">Instagram</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a5.5 5.5 0 1 1 0 11.001A5.5 5.5 0 0 1 12 7.5Zm0 2a3.5 3.5 0 1 0 0 7.001 3.5 3.5 0 0 0 0-7Zm5.75-.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"/>
+                    </svg>
+                  </a>
+                   <!-- Facebook  -->
+                  <a class="social-link" href="https://facebook.com/seemassalon" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook">
+                    <span class="sr-only">Facebook</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M13.5 22v-8h2.35l.35-3h-2.7V9.1c0-.87.24-1.46 1.48-1.46H16.3V5.03C16.05 5 15.2 4.93 14.23 4.93c-2.28 0-3.84 1.39-3.84 3.94V11H8v3h2.39v8h3.11Z"/>
+                    </svg>
+                  </a>
+                   <!-- X (Twitter)  -->
+                  <a class="social-link" href="https://x.com/seemassalon" target="_blank" rel="noopener noreferrer" aria-label="Visit our X (Twitter)">
+                    <span class="sr-only">X</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3 3h4.7l4.04 5.55L16.9 3H21l-7.1 8.19L21 21h-4.7l-4.2-5.79L7.1 21H3l7.44-8.58L3 3Zm5.38 1.8H5.7l12.6 16.4h2.68L8.38 4.8Z"/>
+                    </svg>
+                  </a>
+                   <!-- LinkedIn  -->
+                  <a class="social-link" href="https://linkedin.com/company/seemassalon" target="_blank" rel="noopener noreferrer" aria-label="Visit our LinkedIn">
+                    <span class="sr-only">LinkedIn</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6.94 8.25H4V21h2.94V8.25ZM5.49 3a1.75 1.75 0 1 0 0 3.5A1.75 1.75 0 0 0 5.49 3ZM13.97 12c1.32 0 2.22.9 2.22 2.79V21h2.94v-6.74c0-3-1.59-4.51-3.71-4.51-1.73 0-2.5.95-2.93 1.62h-.06V8.25H9.49V21h2.94v-6.25c0-1.36.63-2.75 1.54-2.75Z"/>
+                    </svg>
+                  </a>
+                   <!-- YouTube  -->
+                  <a class="social-link" href="https://youtube.com/@seemassalon" target="_blank" rel="noopener noreferrer" aria-label="Visit our YouTube">
+                    <span class="sr-only">YouTube</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M23.5 7.5s-.23-1.63-.94-2.35c-.9-.94-1.92-.95-2.38-1C16.9 3.75 12 3.75 12 3.75h-.01s-4.9 0-8.17.4c-.46.05-1.48.06-2.38 1C.73 5.87.5 7.5.5 7.5S.25 9.4.25 11.3v1.36c0 1.89.25 3.8.25 3.8s.23 1.63.94 2.35c.9.94 2.08.91 2.61 1.01C5.7 20.1 12 20.25 12 20.25s4.9 0 8.17-.4c.46-.05 1.48-.06 2.38-1 .71-.72.94-2.35.94-2.35s.25-1.89.25-3.8V11.3c0-1.89-.25-3.8-.25-3.8ZM9.75 14.75V8.75l6 3-6 3Z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+         <!-- Footer Bottom -->
+        <div class="footer-bottom" data-animate style="--delay: 300ms;">
+          <div class="divider"></div>
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+            <nav class="footer-nav">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Accessibility</a>
+            </nav>
+            <p class="copyright">© 2025 Seema's Salon. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // IntersectionObserver-based scroll animations with graceful fallback
+      (function(){
+        var animated = document.querySelectorAll("[data-animate]");
+        if (!("IntersectionObserver" in window)) {
+          animated.forEach(function(el){ el.classList.add("in-view"); });
+          return;
+        }
+        var observer = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.1 });
+
+        animated.forEach(function(el){ observer.observe(el); });
+      })();
+
+      // Hours config (edit to change timings; use "Closed" as needed)
+      // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+      const hours = {
+        1: "09:00 – 19:00",
+        2: "09:00 – 19:00",
+        3: "09:00 – 19:00",
+        4: "09:00 – 19:00",
+        5: "09:00 – 20:00",
+        6: "10:00 – 18:00",
+        0: "10:00 – 16:00"
+      };
+
+      (function populateHours(){
+        var table = document.querySelector('.hours-table');
+        if (!table) return;
+
+        // Fill the timings row from the hours config
+        table.querySelectorAll('tbody td[data-day]').forEach(function(td){
+          var d = Number(td.getAttribute('data-day'));
+          td.textContent = hours[d] || "Closed";
+        });
+
+        // Highlight today's column (both header and timing cell)
+        var today = new Date().getDay();
+        var th = table.querySelector('thead th[data-day="'+today+'"]');
+        var td = table.querySelector('tbody td[data-day="'+today+'"]');
+        if (th) th.classList.add('is-today');
+        if (td) td.classList.add('is-today');
+      })();
+    </script>
+  </body>
+</html>

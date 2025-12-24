@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Spa</title>
+    <!-- favicon  -->
+    <link rel="icon" type="image/svg+xml" href="./spa-svgrepo-com.svg">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- css  -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- remix icon  -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            /* No horizontal scrollbar */
+            scroll-behavior: smooth;
+        }
+
+        .background {
+            background: url('./ChatGPT\ Image\ Aug\ 10\,\ 2025\,\ 03_58_26\ PM.webp') center/cover no-repeat;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* ✅ Fade hero into products section */
+        .background::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            /* adjust fade height if needed */
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0) 0%,
+                    var(--color-primary) 100%);
+            z-index: 1;
+        }
+
+        .text-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            z-index: 2;
+        }
+
+        .text {
+            font-family: "Anton", sans-serif;
+            font-weight: 600;
+            font-size: clamp(4rem, 17vw, 20rem);
+            letter-spacing: 2px;
+            color: white;
+            text-align: center;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-image {
+            object-fit: contain;
+            height: auto;
+            width: clamp(220px, 30vw, 450px);
+            transition: transform 0.3s ease;
+            display: block;
+            scale: 1.02;
+            /* ✅ removes inline image baseline gap */
+        }
+
+        /* Contact Button inside image wrapper */
+        .contact-popup {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .image-wrapper .contact-popup {
+            opacity: 0;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .bebas-neue-regular {
+            font-family: "Bebas Neue", sans-serif;
+            font-weight: 600;
+        }
+
+        /* ✅ Products section gradient (smooth start) */
+        .products {
+            background: linear-gradient(to bottom,
+                    var(--color-primary) 0%,
+                    var(--color-secondary) 50%,
+                    var(--color-primary) 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Mobile styling */
+        @media (max-width: 768px) {
+            .text {
+                font-size: clamp(3rem, 25vw, 8rem);
+            }
+
+            .overlay {
+                height: 90%;
+                width: 90%;
+            }
+
+            .hero-image {
+                width: clamp(350px, 100vw, 900px);
+            }
+
+            .contact-popup {
+                bottom: 12%;
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .text-container .text {
+                font-size: clamp(6rem, 21vw, 17rem);
+            }
+
+            .overlay {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+            }
+
+            .image-wrapper {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        /* Global selection color */
+        ::selection {
+            background: black;
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="selection:bg-[var(--color-darkbrown)] selection:text-[var(--color-secondary)]">
+    <!-- ========================= navbar ============================ -->
+    <nav>
+        <!-- =============================NavBar=================================== -->
+        <!-- Hamburger Menu -->
+        <button id="menu-toggle" class="menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Fullscreen Nav -->
+        <div id="fullscreen-nav" class="nav-overlay">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <div class="logo">SUNWAY WELLNESS SPA</div>
+                    <div class="socials">
+                        <a target="_blank"
+                            href="https://www.linkedin.com/in/nikhil-singh-3524b4289?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
+                            <p>threads</p>
+                        </a>
+                        <a href="assets/Nikhil_Virendra_Singh_CV.pdf" download>
+                            <p>facebook</p>
+                        </a>
+                        <a target="_blank" href="https://www.instagram.com/nikhil1863singh?igsh=MWZ4bjJvdmdkcnhsMA==">
+                            <p>Instagram</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <ul>
+                        <div class="elem">
+                            <a href="#services">
+                                <li>Services</li>
+                            </a>
+                            <i class="ri-arrow-right-up-line"></i>
+                        </div>
+                        <div class="elem">
+                            <a href="#about-us">
+                                <li>About</li>
+                            </a>
+                            <i class="ri-arrow-right-up-line"></i>
+                        </div>
+                        <div class="elem">
+                            <a href="#socials">
+                                <li>Socials</li>
+                            </a>
+                            <i class="ri-arrow-right-up-line"></i>
+                        </div>
+                        <div class="elem">
+                            <a href="#contact-us">
+                                <li>Contact</li>
+                            </a>
+                            <i class="ri-arrow-right-up-line"></i>
+                        </div>
+                    </ul>
+                    <div class="contact-info">
+                        <p id="email1">name@gmail.com</p>
+                        <p id="mobile">9503318111</p>
+                    </div>
+                    <div id="popup" class="popup hidden">Mobile number copied to clipboard!</div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =========================hero section============================ -->
+    <section class="w-full h-screen relative">
+        <div class="background">
+            <div class="text-container">
+                <div class="text nikhil">SUNWAY </div>
+                <div class="text singh">WELLNESS</div>
+            </div>
+            <div class="overlay opacity-0">
+                <div class="image-wrapper">
+                    <img class="hero-image" src="./girl1.webp" loading="eager" alt="">
+                    <a id="cta-button" href="#contact"
+                        class="bebas-neue-regular contact-popup mt-10 px-14 py-6 bg-white text-black text-xl uppercase tracking-wide rounded transition-all duration-500 ease-in-out transform hover:bg-zinc-200 hover:scale-105 active:scale-95">
+                        Book Your Session
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================services secction ========================= -->
+    <div class="py-12 px-4">
+        <div class="max-w-7xl mx-auto" id="services">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h1 style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                    class="text-6xl mb-4 tracking-wide">
+                    Premium Spa Services
+                </h1>
+                <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                    class="text-lg max-w-2xl mx-auto font-medium opacity-80">
+                    Indulge in our carefully curated wellness experiences designed to rejuvenate your mind, body, and
+                    spirit.
+                </p>
+            </div>
+
+            <!-- Cards Grid - 3x3 Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto justify-items-center">
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-1">
+
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Deep Tissue Massage spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                        aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-2">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Aromatherapy Facial spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring
+                                        organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                        aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-3">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Hot Stone Therapy spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and
+                                        improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                        aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-1">
+
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Deep Tissue Massage spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                        aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-2">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Aromatherapy Facial spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring
+                                        organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                        aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-3">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Hot Stone Therapy spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and
+                                        improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                        aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-1">
+
+                        <!-- Subtle background gradient -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <!-- Glowing effect -->
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <!-- Image -->
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1737352777897-e22953991a32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMHNwYXxlbnwxfHx8fDE3NTY3MTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Deep Tissue Massage spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-1"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Deep Tissue Massage
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Release tension and restore balance with our therapeutic deep tissue massage.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $120">
+                                        $120
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Deep Tissue Massage')"
+                                        aria-label="Book Deep Tissue Massage service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-2">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1559185590-879c66a55254?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjBmYWNpYWwlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU2NzE1MTQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Aromatherapy Facial spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-2"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Aromatherapy Facial
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Purify and nourish your skin with our signature aromatherapy facial, featuring
+                                        organic botanical extracts.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $95">
+                                        $95
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Aromatherapy Facial')"
+                                        aria-label="Book Aromatherapy Facial service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="spa-card-container">
+                    <div class="spa-card relative w-80 cursor-pointer card-bg rounded-2xl shadow-xl" tabindex="0"
+                        role="article" aria-labelledby="spa-title-3">
+
+                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl"
+                            style="background: radial-gradient(ellipse at top left, var(--color-secondary), transparent 50%), radial-gradient(ellipse at bottom right, var(--color-primary), transparent 50%);">
+                        </div>
+
+                        <div class="spa-card-glow absolute inset-0 rounded-2xl"></div>
+
+                        <div class="spa-card-content relative z-10 p-6">
+                            <div class="overflow-hidden rounded-xl aspect-square mb-4"
+                                style="background-color: var(--color-softwhite);">
+                                <img src="https://images.unsplash.com/photo-1662106155311-e7a175e0babc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBzdG9uZSUyMHNwYSUyMHRoZXJhcHl8ZW58MXx8fHwxNzU2NzUxMzc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                                    alt="Hot Stone Therapy spa service"
+                                    class="spa-card-image w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="space-y-3">
+                                    <h2 id="spa-title-3"
+                                        style="font-family: 'Bebas Neue', sans-serif; color: var(--color-darkbrown);"
+                                        class="text-3xl tracking-wide">
+                                        Hot Stone Therapy
+                                    </h2>
+
+                                    <p style="font-family: 'Poppins', sans-serif; color: var(--color-darkbrown);"
+                                        class="leading-relaxed opacity-80 text-sm">
+                                        Experience ultimate relaxation as warm volcanic stones melt away stress and
+                                        improve circulation.
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 mt-auto">
+                                    <span style="font-family: 'Bebas Neue', sans-serif; color: var(--color-primary);"
+                                        class="text-2xl" aria-label="Price: $140">
+                                        $140
+                                    </span>
+
+                                    <button
+                                        class="book-btn relative overflow-hidden px-6 py-3 rounded-full text-white font-medium"
+                                        onclick="handleBookNow(this, 'Hot Stone Therapy')"
+                                        aria-label="Book Hot Stone Therapy service">
+                                        <span class="relative z-10">Book Now</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark mode toggle -->
+            <!-- <div class="fixed bottom-6 right-6">
+                <button onclick="toggleDarkMode()" 
+                        class="p-3 rounded-full shadow-lg border hover:shadow-xl transition-all duration-300"
+                        style="background-color: var(--color-softwhite); border-color: var(--color-primary); color: var(--color-darkbrown);"
+                        aria-label="Toggle dark mode">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- =============================gallery ================================= -->
+    <iframe src="./gallery.html"
+        style="width: 100%; height: 100vh; border: none; display: block; scroll-behavior: smooth;"
+        title="Premium Image Gallery" loading="eager" allowfullscreen></iframe>
+
+    <!-- ==============================about us =================================== -->
+    <!-- ============================footer section ================================ -->
+    <footer>
+        <div class="footer-container" id="about-us">
+            <!-- Main grid - Two column layout  -->
+            <div class="footer-grid">
+                <!-- LEFT COLUMN: Map + Address + Contact  -->
+                <section class="footer-section slide-in-left" data-animate style="--delay: 80ms;">
+                    <!-- Header -->
+                    <div class="section-header">
+                        <h2 class="font-heading text-[var(--color-darkbrown)]" data-animate style="--delay: 140ms;">
+                            Find Us
+                        </h2>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="section-content">
+                        <!-- Map Container  -->
+                        <div class="map-container" data-animate style="--delay: 160ms;">
+                            <!-- Google Maps Embed  -->
+                            <iframe id="map-embed" class="map-embed"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9935.181922068346!2d-0.127758!3d51.507351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b33376b1d7b%3A0xa7789f41e3a34d5!2sWestminster%2C%20London!5e0!3m2!1sen!2suk!4v1692199980000!5m2!1sen!2suk"
+                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                title="Map — Seema's Salon location" aria-label="Map of Seema's Salon location">
+                            </iframe>
+
+                            <!-- Address  -->
+                            <div class="address-section">
+                                <div class="flex items-start gap-3">
+                                    <!-- Location icon  -->
+                                    <span class="mt-1" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                            fill="currentColor" class="text-[var(--color-darkbrown)]"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5z" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <strong class="block text-[var(--color-darkbrown)] font-semibold mb-1">name
+                                            Salon</strong>
+                                        <p class="text-[var(--color-darkbrown)]/90 leading-relaxed">23 Roseberry St,
+                                            London, UK</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Card -->
+                        <div class="contact-card" id="contact-us" data-animate style="--delay: 220ms;">
+                            <h3 class="font-heading text-2xl text-[var(--color-darkbrown)] margin-0">Contact</h3>
+
+                            <div class="contact-content">
+                                <!-- Contact Info -->
+                                <div class="contact-info">
+                                    <div class="contact-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M6.62 10.79a15.91 15.91 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C11.85 21 3 12.15 3 1a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.02l-2.2 2.2z" />
+                                        </svg>
+                                        <a href="tel:02036452275" class="font-medium">020-3645-2275</a>
+                                    </div>
+
+                                    <div class="contact-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 13.065 1.5 6.75V18A1.5 1.5 0 0 0 3 19.5h18A1.5 1.5 0 0 0 22.5 18V6.75l-10.5 6.315zM21 5.25H3c-.45 0-.846.2-1.11.51L12 12.885l10.11-7.125A1.395 1.395 0 0 0 21 5.25z" />
+                                        </svg>
+                                        <a href="mailto:hello@seemassalon.com"
+                                            class="font-medium">hello@namesalon.com</a>
+                                    </div>
+                                </div>
+
+                                <!-- Book Now Button -->
+                                <div class="flex justify-center lg:justify-start">
+                                    <a href="#" class="btn-olive" aria-label="Book an appointment now">
+                                        Book Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RIGHT COLUMN: Opening Hours + Socials  -->
+                <section class="footer-section slide-in-right" data-animate style="--delay: 120ms;">
+                    <!-- Header -->
+                    <div class="section-header">
+                        <div class="flex items-center gap-3" data-animate style="--delay: 140ms;">
+                            <!-- Clock icon -->
+                            <span class="clock-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 1.75a10.25 10.25 0 1 0 0 20.5 10.25 10.25 0 0 0 0-20.5zm.75 10.19V6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 .22.53l3.75 3.75a.75.75 0 1 0 1.06-1.06l-3.53-3.53z" />
+                                </svg>
+                            </span>
+                            <h2 class="font-heading text-[var(--color-darkbrown)]">
+                                Opening Hours
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="section-content">
+                        <!-- Hours Container -->
+                        <div class="hours-container" data-animate style="--delay: 180ms;">
+                            <div class="hours-card">
+                                <!-- Hours Table -->
+                                <div class="hours-wrap">
+                                    <table class="hours-table">
+                                        <thead>
+                                            <tr>
+                                                <!-- data-day mapping: 1=Mon ... 6=Sat, 0=Sun  -->
+                                                <th data-day="1">Mon</th>
+                                                <th data-day="2">Tue</th>
+                                                <th data-day="3">Wed</th>
+                                                <th data-day="4">Thu</th>
+                                                <th data-day="5">Fri</th>
+                                                <th data-day="6">Sat</th>
+                                                <th data-day="0">Sun</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <!-- Values populated by JS  -->
+                                                <td data-day="1"></td>
+                                                <td data-day="2"></td>
+                                                <td data-day="3"></td>
+                                                <td data-day="4"></td>
+                                                <td data-day="5"></td>
+                                                <td data-day="6"></td>
+                                                <td data-day="0"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- SEEMA'S SPA text section -->
+                                <div class="flex-center">
+                                    <div class="spa-text">NAME SALON</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Socials Card -->
+                        <div class="socials-card" id="socials" data-animate style="--delay: 200ms;">
+                            <h3 class="font-heading text-2xl text-[var(--color-darkbrown)] margin-0">
+                                Follow Us
+                            </h3>
+                            <p class="text-[var(--color-darkbrown)]/80 margin-0">Stay updated with our latest treatments
+                                and offers.</p>
+
+                            <div class="social-links">
+                                <!-- Instagram  -->
+                                <a class="social-link" href="https://instagram.com/seemassalon" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Visit our Instagram">
+                                    <span class="sr-only">Instagram</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a5.5 5.5 0 1 1 0 11.001A5.5 5.5 0 0 1 12 7.5Zm0 2a3.5 3.5 0 1 0 0 7.001 3.5 3.5 0 0 0 0-7Zm5.75-.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                                    </svg>
+                                </a>
+                                <!-- Facebook  -->
+                                <a class="social-link" href="https://facebook.com/seemassalon" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Visit our Facebook">
+                                    <span class="sr-only">Facebook</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M13.5 22v-8h2.35l.35-3h-2.7V9.1c0-.87.24-1.46 1.48-1.46H16.3V5.03C16.05 5 15.2 4.93 14.23 4.93c-2.28 0-3.84 1.39-3.84 3.94V11H8v3h2.39v8h3.11Z" />
+                                    </svg>
+                                </a>
+                                <!-- X (Twitter)  -->
+                                <a class="social-link" href="https://x.com/seemassalon" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Visit our X (Twitter)">
+                                    <span class="sr-only">X</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M3 3h4.7l4.04 5.55L16.9 3H21l-7.1 8.19L21 21h-4.7l-4.2-5.79L7.1 21H3l7.44-8.58L3 3Zm5.38 1.8H5.7l12.6 16.4h2.68L8.38 4.8Z" />
+                                    </svg>
+                                </a>
+                                <!-- LinkedIn  -->
+                                <a class="social-link" href="https://linkedin.com/company/seemassalon" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Visit our LinkedIn">
+                                    <span class="sr-only">LinkedIn</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M6.94 8.25H4V21h2.94V8.25ZM5.49 3a1.75 1.75 0 1 0 0 3.5A1.75 1.75 0 0 0 5.49 3ZM13.97 12c1.32 0 2.22.9 2.22 2.79V21h2.94v-6.74c0-3-1.59-4.51-3.71-4.51-1.73 0-2.5.95-2.93 1.62h-.06V8.25H9.49V21h2.94v-6.25c0-1.36.63-2.75 1.54-2.75Z" />
+                                    </svg>
+                                </a>
+                                <!-- YouTube  -->
+                                <a class="social-link" href="https://youtube.com/@seemassalon" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Visit our YouTube">
+                                    <span class="sr-only">YouTube</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M23.5 7.5s-.23-1.63-.94-2.35c-.9-.94-1.92-.95-2.38-1C16.9 3.75 12 3.75 12 3.75h-.01s-4.9 0-8.17.4c-.46.05-1.48.06-2.38 1C.73 5.87.5 7.5.5 7.5S.25 9.4.25 11.3v1.36c0 1.89.25 3.8.25 3.8s.23 1.63.94 2.35c.9.94 2.08.91 2.61 1.01C5.7 20.1 12 20.25 12 20.25s4.9 0 8.17-.4c.46-.05 1.48-.06 2.38-1 .71-.72.94-2.35.94-2.35s.25-1.89.25-3.8V11.3c0-1.89-.25-3.8-.25-3.8ZM9.75 14.75V8.75l6 3-6 3Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom" data-animate style="--delay: 300ms;">
+                <div class="divider"></div>
+                <div class="footer-bottom-inner">
+                    <nav class="footer-nav">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Accessibility</a>
+                    </nav>
+                    <p class="copyright">© 2025 Name Salon. All rights reserved.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </footer>
+
+
+
+    <!-- ===================================================================================== -->
+    <!-- WhatsApp Floating Button -->
+    <div class="wa-fab" data-number="919876543210" data-message="Hi! I’d like to know more.">
+        <button class="wa-fab__btn" type="button" aria-label="Chat on WhatsApp">
+            <!-- Proper WhatsApp Icon (bubble + handset) -->
+            <svg class="wa-fab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true">
+                <path fill="#fff" d="M380.9 97.1C339 55.1 283.2 32 224.4 32c-118.1 0-214 95.9-214 214 
+      0 37.7 9.9 74.4 28.8 107.1L0 480l130.5-34.4c31.4 17.2 66.8 26.3 103.9 26.3h.1c118.1 0 
+      214-95.9 214-214 0-58.8-23.1-114.6-65.1-156.6zM224.5 438.6c-31.2 0-61.8-8.3-88.4-24l-6.3-3.7-77.5 
+      20.4L74 355.1l-4.1-6.6c-18-28.9-27.5-62.3-27.5-96.5 0-100.4 81.7-182.1 182.1-182.1 48.6 0 94.3 
+      18.9 128.6 53.2 34.3 34.3 53.2 80 53.2 128.6 0 100.4-81.7 182.1-182.1 182.1zm101.7-138.6c-5.6-2.8-33.1-16.4-38.2-18.3-5.1-1.9-8.8-2.8-12.5 
+      2.8-3.7 5.6-14.3 18.3-17.5 22-3.2 3.7-6.5 4.2-12.1 1.4-5.6-2.8-23.6-8.7-44.9-27.8-16.6-14.8-27.8-33.1-31-38.7-3.2-5.6-.3-8.6 
+      2.4-11.4 2.5-2.5 5.6-6.5 8.4-9.7 2.8-3.2 3.7-5.6 5.6-9.3 1.9-3.7.9-7-0.5-9.8-1.4-2.8-12.5-30-17.1-41.1-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-7-.2-10.7-.2s-9.8 
+      1.4-15 7c-5.1 5.6-19.6 19.1-19.6 46.4 0 27.3 20.1 53.7 22.9 57.4 2.8 3.7 39.5 60.3 95.7 84.5 
+      13.4 5.8 23.9 9.3 32.1 11.9 13.5 4.3 25.8 3.7 35.5 2.2 10.8-1.6 33.1-13.5 37.7-26.5 4.6-13 4.6-24.1 
+      3.2-26.5-1.3-2.4-5.1-3.8-10.7-6.6z" />
+            </svg>
+            <span class="wa-fab__sr">Open WhatsApp chat</span>
+        </button>
+    </div>
+
+    <script src="./script.js"></script>
+    <script>
+        gsap.set(".nikhil", { x: "-100%", opacity: 0 });
+        gsap.set(".singh", { x: "100%", opacity: 0 });
+
+        gsap.timeline()
+            .to(".nikhil", { x: 0, opacity: 1, duration: 0.9, ease: "power4.out" })
+            .to(".singh", { x: 0, opacity: 1, duration: 0.8, ease: "power4.out" }, "+=0.2")
+            .to(".overlay", { opacity: 1, scale: 1.3, duration: 0.9, ease: "power4.out" }, "+=0.2")
+            .to(".overlay", { scale: 0.995, duration: 0.7, ease: "power2.out" })
+            .to(".contact-popup", { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, "-=0.2");
+    </script>
+</body>
+
+</html>
